@@ -1,5 +1,9 @@
 import React from "react";
 
 export function FailedTasks() {
-  return <div></div>;
+  return (
+    <div>
+      <h4>Проваленные</h4>
+    </div>
+  );
 }
