@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
-export function SendTask({ setNameAndTime }) {
+export function CreateTasks({ addTask }) {
   const [taskName, setTaskName] = useState("");
   const [taskTime, setTaskTime] = useState("");
 
-  function sendValues() {
+  function handleSubmit() {
     if (!taskName || !taskTime) return;
-    setNameAndTime(taskName, taskTime);
+    addTask(taskName, Number(taskTime));
     setTaskName("");
     setTaskTime("");
   }
@@ -16,20 +16,16 @@ export function SendTask({ setNameAndTime }) {
       <input
         type="text"
         placeholder="Введите задачу"
-        className="namingTask"
         value={taskName}
         onChange={(e) => setTaskName(e.target.value)}
       />
       <input
         type="number"
         placeholder="Введите время (в минутах)"
-        className="setTaskTime"
         value={taskTime}
-        onChange={(e) =>
-          setTaskTime(e.target.value ? Number(e.target.value) : "")
-        }
+        onChange={(e) => setTaskTime(e.target.value)}
       />
-      <button onClick={sendValues}>Добавить</button>
+      <button onClick={handleSubmit}>Добавить</button>
     </div>
   );
 }

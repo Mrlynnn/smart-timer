@@ -1,9 +1,14 @@
 import React from "react";
 
-export function CompletedTasks() {
+export function CompletedTasks({ completedTasks }) {
   return (
     <div>
-      <h4>Выполненные</h4>
+      <h2>Выполненные задачи</h2>
+      <ul>
+        {completedTasks.map((task) => (
+          <li key={task.id}>{task.name}</li>
+        ))}
+      </ul>
     </div>
   );
 }

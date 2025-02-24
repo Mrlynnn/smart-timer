@@ -1,18 +1,79 @@
-import React from "react";
-import { SendTask } from "../../SendTask";
+import React, { useEffect, useState } from "react";
 import { ListBlock } from "../../List";
 import { TasksBlock } from "../../Tasks";
+import { CreateTasks } from "../../CreateTask";
 
 export function App() {
-  function name1(name, time) {
-    console.log(name);
-    console.log(time);
-  }
+  const [tasks, setTasks] = useState(() => {
+    const savedTasks = localStorage.getItem("tasks");
+    return savedTasks ? JSON.parse(savedTasks) : [];
+  });
+  const [completedTasks, setCompletedTasks] = useState(() => {
+    const savedCompleted = localStorage.getItem("completedTasks");
+    return savedCompleted ? JSON.parse(savedCompleted) : [];
+  });
+  const [failedTasks, setFailedTasks] = useState(() => {
+    const savedFailed = localStorage.getItem("failedTasks");
+    return savedFailed ? JSON.parse(savedFailed) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    localStorage.setItem("completedTasks", JSON.stringify(completedTasks));
+    localStorage.setItem("failedTasks", JSON.stringify(failedTasks));
+  }, [tasks, completedTasks, failedTasks]);
+
+  const addTask = (name, duration) => {
+    const newTask = {
+      id: Date.now(),
+      name,
+      duration: duration * 60,
+      status: "active",
+      isPlaying: true,
+    };
+    setTasks([...tasks, newTask]);
+  };
+
+  const togglePause = (id) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, isPlaying: !task.isPlaying } : task
+      )
+    );
+  };
+
+  const markCompleted = (id) => {
+    const task = tasks.find((task) => task.id === id);
+    if (task) {
+      setCompletedTasks([...completedTasks, task]);
+      setTasks(tasks.filter((task) => task.id !== id));
+    }
+  };
+
+  const removeTask = (id) => {
+    setTasks(tasks.filter((task) => task.id !== id));
+  };
+
+  const handleTimeEnd = (id) => {
+    const task = tasks.find((task) => task.id === id);
+    if (task) {
+      alert(`Задача "${task.name}" провалена!`);
+      setFailedTasks([...failedTasks, task]);
+      setTasks(tasks.filter((task) => task.id !== id));
+    }
+  };
+
   return (
     <>
-      <SendTask setNameAndTime={name1} />
-      <ListBlock />
-      <TasksBlock />
+      <CreateTasks addTask={addTask} />
+      <ListBlock
+        tasks={tasks}
+        togglePause={togglePause}
+        markCompleted={markCompleted}
+        removeTask={removeTask}
+        handleTimeEnd={handleTimeEnd}
+      />
+      <TasksBlock completedTasks={completedTasks} failedTasks={failedTasks} />
     </>
   );
 }

@@ -2,11 +2,11 @@ import React from "react";
 import { FailedTasks } from "./FailedTasks";
 import { CompletedTasks } from "./CompletedTasks";
 
-export function TasksBlock() {
+export const TasksBlock = ({ completedTasks, failedTasks }) => {
   return (
     <div>
-      <CompletedTasks />
-      <FailedTasks />
+      <CompletedTasks completedTasks={completedTasks} />
+      <FailedTasks failedTasks={failedTasks} />
     </div>
   );
-}
+};
