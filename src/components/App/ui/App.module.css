@@ -1,0 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Arsenal+SC:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  font-family: "Arsenal SC", serif;
+}
+.app {
+  background-image: url("../../../assets/b58f4e04090b28fa6642bfa7ebc601df.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 70px;
+}

@@ -1,1 +1,1 @@
-export { TasksBlock } from "./TasksBlock";
+export { TasksBlock } from "./ui/TasksBlock";

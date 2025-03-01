@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ListBlock } from "../../List";
 import { TasksBlock } from "../../Tasks";
 import { CreateTasks } from "../../CreateTask";
+import styles from "./App.module.css";
 
 export function App() {
   const [tasks, setTasks] = useState(() => {
@@ -62,9 +63,20 @@ export function App() {
       setTasks(tasks.filter((task) => task.id !== id));
     }
   };
+  const deleteTask = (taskId, taskType) => {
+    if (taskType === "completed") {
+      setCompletedTasks((prevTasks) =>
+        prevTasks.filter((task) => task.id !== taskId)
+      );
+    } else if (taskType === "failed") {
+      setFailedTasks((prevTasks) =>
+        prevTasks.filter((task) => task.id !== taskId)
+      );
+    }
+  };
 
   return (
-    <>
+    <div className={styles.app}>
       <CreateTasks addTask={addTask} />
       <ListBlock
         tasks={tasks}
@@ -73,7 +85,11 @@ export function App() {
         removeTask={removeTask}
         handleTimeEnd={handleTimeEnd}
       />
-      <TasksBlock completedTasks={completedTasks} failedTasks={failedTasks} />
-    </>
+      <TasksBlock
+        completedTasks={completedTasks}
+        failedTasks={failedTasks}
+        deleteTask={deleteTask}
+      />
+    </div>
   );
 }

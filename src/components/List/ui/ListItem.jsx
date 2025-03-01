@@ -7,6 +7,7 @@ import {
   faSquareCheck,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
+import styles from "../ui/ListBlock.module.css";
 
 // Функция для преобразования секунд в формат ЧЧ:ММ:СС
 const formatTime = (time) => {
@@ -28,33 +29,39 @@ export function ListItem({
   handleTimeEnd,
 }) {
   return (
-    <li>
-      {task.name}
+    <li className={styles.li}>
+      <span className={styles.span}>{task.name}</span>
       <CountdownCircleTimer
         isPlaying={task.isPlaying}
-        colors="#218380"
+        colors="#2f80e4"
         duration={task.duration}
         onComplete={() => handleTimeEnd(task.id)}
+        size={150}
+        className={styles.timer}
       >
         {({ remainingTime, color }) => (
-          <span style={{ color }}>{formatTime(remainingTime)}</span>
+          <span style={{ color, fontSize: "20px" }}>
+            {formatTime(remainingTime)}
+          </span>
         )}
       </CountdownCircleTimer>
-      <FontAwesomeIcon
-        icon={task.isPlaying ? faPause : faPlay}
-        onClick={() => togglePause(task.id)}
-        style={{ cursor: "pointer", margin: "0 5px" }}
-      />
-      <FontAwesomeIcon
-        icon={faSquareCheck}
-        onClick={() => markCompleted(task.id)}
-        style={{ cursor: "pointer", margin: "0 5px" }}
-      />
-      <FontAwesomeIcon
-        icon={faXmark}
-        onClick={() => removeTask(task.id)}
-        style={{ cursor: "pointer", margin: "0 5px" }}
-      />
+      <div className={styles.icons}>
+        <FontAwesomeIcon
+          icon={task.isPlaying ? faPause : faPlay}
+          onClick={() => togglePause(task.id)}
+          style={{ cursor: "pointer" }}
+        />
+        <FontAwesomeIcon
+          icon={faSquareCheck}
+          onClick={() => markCompleted(task.id)}
+          style={{ cursor: "pointer" }}
+        />
+        <FontAwesomeIcon
+          icon={faXmark}
+          onClick={() => removeTask(task.id)}
+          style={{ cursor: "pointer" }}
+        />
+      </div>
     </li>
   );
 }

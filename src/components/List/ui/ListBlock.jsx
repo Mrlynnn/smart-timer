@@ -1,5 +1,6 @@
 import React from "react";
 import { ListItem } from "./ListItem";
+import styles from "../ui/ListBlock.module.css";
 
 export function ListBlock({
   tasks,
@@ -9,7 +10,7 @@ export function ListBlock({
   handleTimeEnd,
 }) {
   return (
-    <ul>
+    <ul className={styles.ul}>
       {tasks.map((task) => (
         <ListItem
           key={task.id}
