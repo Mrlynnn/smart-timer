@@ -6,8 +6,18 @@ export function CreateTasks({ addTask }) {
   const [taskTime, setTaskTime] = useState("");
 
   function handleSubmit() {
-    if (!taskName || !taskTime) return;
-    addTask(taskName, Number(taskTime));
+    if (!taskName.trim()) {
+      alert("Введите название задачи!");
+      return;
+    }
+
+    const time = Number(taskTime);
+    if (!taskTime || isNaN(time) || time <= 0) {
+      alert("Введите время больше 0!");
+      return;
+    }
+
+    addTask(taskName, time);
     setTaskName("");
     setTaskTime("");
   }
@@ -27,7 +37,12 @@ export function CreateTasks({ addTask }) {
         type="number"
         placeholder="Введите время (в минутах)"
         value={taskTime}
-        onChange={(e) => setTaskTime(e.target.value)}
+        onChange={(e) => {
+          const value = e.target.value;
+          if (value === "0") return;
+          setTaskTime(value);
+        }}
+        min="1"
       />
       <button onClick={handleSubmit} className={styles.btn}>
         Добавить
